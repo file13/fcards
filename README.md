@@ -1,4 +1,4 @@
-# lakewoodpca
+# Fcards
 
 A command line flashcard program in Ocaml. It allows for multiple choices and I find it useful when learning new languages.
 
