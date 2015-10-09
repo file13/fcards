@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Flashcards.Card.html">
+<link rel="Up" href="Flashcards.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Flashcards" rel="Chapter" href="Flashcards.html"><title>Flashcards.Deck</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Flashcards.Card.html" title="Flashcards.Card">Previous</a>
+&nbsp;<a class="up" href="Flashcards.html" title="Flashcards">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Flashcards.Deck.html">Flashcards.Deck</a></h1>
+
+<pre><span class="keyword">module</span> Deck: <code class="code">sig</code> <a href="Flashcards.Deck.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module covers a deck of numerous flashcards. It also contains
+    all the information needed for score keeping.
+    In general, you'll probably only use a few of the functions.
+    The most important being <code class="code">load_simple_deck</code>, <code class="code">reset</code>, <code class="code">top_card</code>, 
+    <code class="code">correct_answer</code>, and <code class="code">incorrect_answer</code>. 
+<p>
+
+    To understand the code, you'll probably want to tackle those functions
+    in that order. But the general idea is that you load a deck, reset it,
+    and call <code class="code">top_card</code> to get the next card along with the 
+    multiple choices
+    (if any). After you check the results, you then call <code class="code">correct_answer</code>
+    or <code class="code">incorrect_answer</code> as appropriate. If it's correct, it'll remove it
+    from the deck and update the score. If it's incorrect, it'll put
+    that card on the back of the deck and update the score (and missed card
+    list). Regardless of the front end, this will be the normal way
+    of using this library.<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.name">name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.cards">cards</span>&nbsp;: <code class="type"><a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.all_cards">all_cards</span>&nbsp;: <code class="type"><a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.correct">correct</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.incorrect">incorrect</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.missed">missed</span>&nbsp;: <code class="type">(<a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> * int) list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.backs">backs</span>&nbsp;: <code class="type">string list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+A <code class="code">Deck.t</code> not only contains a deck of individual cards, but
+      contains all the tools necessary for keeping score and generating
+      multiple choice options. As such, we'll keep two instances of a
+      given deck. The full original deck which will be used for generating 
+      restarting a deck, 
+      and a list which will shrink as we remove cards. We'll also keep
+      a tuple list of missed cards (the card missed and how many times it
+      was missed) along with a list of card backs which we'll use to
+      generate multiple choices.<br>
+</div>
+
+
+<pre><span id="VALname"><span class="keyword">val</span> name</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> string</code></pre><div class="info ">
+The name of the deck. Currently it will be the name of the text 
+      file the deck was loaded from.<br>
+</div>
+
+<pre><span id="VALcards"><span class="keyword">val</span> cards</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> list</code></pre><div class="info ">
+The list of current cards. This list will shrink each time a
+      card is answered correctly.<br>
+</div>
+
+<pre><span id="VALcorrect"><span class="keyword">val</span> correct</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+Returns the number of correct cards.<br>
+</div>
+
+<pre><span id="VALincorrect"><span class="keyword">val</span> incorrect</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+Returns the number of correct cards.<br>
+</div>
+
+<pre><span id="VALmissed"><span class="keyword">val</span> missed</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> (<a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> * int) list</code></pre><div class="info ">
+Returns a list of all the missed cards and how many times
+      they were missed.<br>
+</div>
+
+<pre><span id="VALall_backs"><span class="keyword">val</span> all_backs</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> list -> string list</code></pre><div class="info ">
+Returns a list of all of the card backs in the deck. Used
+      for generating multiple choices.<br>
+</div>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">string -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> list -> <a href="Flashcards.Deck.html#TYPEt">t</a></code></pre><div class="info ">
+Returns a new <code class="code">Deck.t</code> with a given name and list of cards. 
+      Generally not used directly, but by <code class="code">load_simple_deck</code>.<br>
+</div>
+
+<pre><span id="VALupdate_backs"><span class="keyword">val</span> update_backs</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Generates the <code class="code">all_backs</code>.<br>
+</div>
+
+<pre><span id="VALadd_card"><span class="keyword">val</span> add_card</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> -> unit</code></pre><div class="info ">
+Adds a card to the deck. Note that this does not update any
+      other fields, so you'll probably need to call <code class="code">reset</code> once you're done
+      adding cards.<br>
+</div>
+
+<pre><span id="VALreset_score"><span class="keyword">val</span> reset_score</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Resets the score.<br>
+</div>
+
+<pre><span id="VALshuffle"><span class="keyword">val</span> shuffle</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Shuffles the <code class="code">Deck.t.cards</code>.<br>
+</div>
+
+<pre><span id="VALreset"><span class="keyword">val</span> reset</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Resets a loaded deck back to it's starting state. 
+      This resets the score, restarts and shuffles the deck, and 
+      regenerates the backs.<br>
+</div>
+
+<pre><span id="VALreverse"><span class="keyword">val</span> reverse</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Reverses all the cards in the deck calling <code class="code">Card.reverse</code>. 
+      This also automatically updates the backs.<br>
+</div>
+
+<pre><span id="VALadd_missed"><span class="keyword">val</span> add_missed</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> -> unit</code></pre><div class="info ">
+Adds a missed card to the missed list or else increments the 
+      times missed if it's already been missed before.<br>
+</div>
+
+<pre><span id="VALtotal_missed"><span class="keyword">val</span> total_missed</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+Returns the total number of missed cards<br>
+</div>
+
+<pre><span id="VALdeck_size"><span class="keyword">val</span> deck_size</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+Returns the current number of cards left in the deck.<br>
+</div>
+
+<pre><span id="VALpercentage"><span class="keyword">val</span> percentage</span> : <code class="type">int -> int -> float</code></pre><div class="info ">
+Returns the percentage score.<br>
+</div>
+
+<pre><span id="VALcorrect_answer"><span class="keyword">val</span> correct_answer</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Called every time one gets an answer correct. This performs
+      the upkeep of removing that card and updating the score.<br>
+</div>
+
+<pre><span id="VALincorrect_answer"><span class="keyword">val</span> incorrect_answer</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> -> unit</code></pre><div class="info ">
+Called every time one gets an answer incorrect. This performs
+      the upkeep of adding a missed card, updating the score, and moving
+      the missed card to the back of the deck.<br>
+</div>
+
+<pre><span id="VALhas_multiple_choices"><span class="keyword">val</span> has_multiple_choices</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> int -> bool</code></pre><div class="info ">
+Predicate to determine if the deck can generate N number of 
+      multiple choices.<br>
+</div>
+
+<pre><span id="EXCEPTIONNot_enough_multiple_choices"><span class="keyword">exception</span> Not_enough_multiple_choices</span></pre>
+<div class="info ">
+This exception is called by <code class="code">multiple_choices_exn</code>.<br>
+</div>
+
+<pre><span id="VALmultiple_choices_exn"><span class="keyword">val</span> multiple_choices_exn</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> string -> int -> string list * int</code></pre><div class="info ">
+The exception throwing version of <code class="code">multiple_choices</code>. 
+      Generally, you'll want <code class="code">multiple_choices</code>, not this.<br>
+</div>
+
+<pre><span id="VALmultiple_choices"><span class="keyword">val</span> multiple_choices</span> : <code class="type"><a href="Flashcards.Deck.html#TYPEt">t</a> -> string -> int -> (string list * int) option</code></pre><div class="info ">
+Returns an option (i.e. <code class="code">Some</code> or <code class="code">None</code>), if <code class="code">Some</code>, a tuple 
+      containing a of random multiple choices and the int location of
+      the correct answer in the list given the current top card.
+<p>
+Example: If we call "<code class="code">multiple_choices deck 4</code>" on a deck
+      that has 10 cards, this will return a list of 3 randomly generated
+      multiple choices along with the correct answer for the top card. It
+      also returns the position in the list where the correct answer is.
+      So if "<code class="code">multiple_choices deck 4</code>" returns the number 2, it means
+      the correct multiple choice answer is 2 and thus, the third item
+      in the list (since we start from 0).<br>
+</div>
+
+<pre><span id="EXCEPTIONNo_more_cards"><span class="keyword">exception</span> No_more_cards</span></pre>
+<div class="info ">
+This exception is called by <code class="code">top_card_exn</code>.<br>
+</div>
+
+<pre><span id="VALtop_card_exn"><span class="keyword">val</span> top_card_exn</span> : <code class="type">?multiple_choices:int -><br>       <a href="Flashcards.Deck.html#TYPEt">t</a> -> <a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> * (string list * int)</code></pre><div class="info ">
+The exception throwing version of <code class="code">top_card</code>. 
+      Returns a tuple of the top card, another tuple containing 
+      a string list filled with the multiple choices, and the location
+      of the correct answer in the list of choices.<br>
+</div>
+
+<pre><span id="VALtop_card"><span class="keyword">val</span> top_card</span> : <code class="type">?choices:int -><br>       <a href="Flashcards.Deck.html#TYPEt">t</a> -> (<a href="Flashcards.Card.html#TYPEt">Flashcards.Card.t</a> * (string list * int)) option</code></pre><div class="info ">
+Like <code class="code">top_card_exn</code>, except the results are wrapped in
+      an <code class="code">Option</code>.<br>
+</div>
+
+<pre><span id="VALload_simple_deck"><span class="keyword">val</span> load_simple_deck</span> : <code class="type">string -> <a href="Flashcards.Deck.html#TYPEt">t</a></code></pre><div class="info ">
+Loads a simple card deck file name and returns a populated
+      Deck.t. Note, this does not call reset.
+<p>
+The format for a "simple deck" is a text file where 
+      each line represents a new card. 
+      Each card is then separated by the "|" character.
+      The part before the "|" is the front, the part after, the back.
+      For example, a simple three card deck file consists of a three 
+      line text file that looks like this.
+<p>
+
+      <pre class="verbatim">Archibald Thurston Buxton McButterpans Cross|Troll
+3 * 3|9
+Ho logos|the word</pre>
+<p>
+
+      In this example, the first line will be the first card. 
+      The front of the first card will be 
+      Archibald Thurston Buxton McButterpans Cross and the 
+      back will be Troll. 
+      The front of the second card will be 3 * 3 and the back 9. 
+      Ditto for the third card whose front is Ho logos and back the word.<br>
+</div>
+</body></html>

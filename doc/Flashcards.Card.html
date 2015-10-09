@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Flashcards.Deck.html">
+<link rel="Up" href="Flashcards.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Flashcards" rel="Chapter" href="Flashcards.html"><title>Flashcards.Card</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Flashcards.html" title="Flashcards">Up</a>
+&nbsp;<a class="post" href="Flashcards.Deck.html" title="Flashcards.Deck">Next</a>
+</div>
+<h1>Module <a href="type_Flashcards.Card.html">Flashcards.Card</a></h1>
+
+<pre><span class="keyword">module</span> Card: <code class="code">sig</code> <a href="Flashcards.Card.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module covers a single flashcard. 
+    This small library contains the usual accessing and setting functions
+    you use to manipulate a flashcard.
+<p>
+
+    The code is trivial and shouldn't be difficult to understand.<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.front">front</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.back">back</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+A <code class="code">Card.t</code> contains a front and a back.<br>
+</div>
+
+
+<pre><span id="VALfront"><span class="keyword">val</span> front</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> string</code></pre>
+<pre><span id="VALback"><span class="keyword">val</span> back</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> string</code></pre>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> string</code></pre>
+<pre><span id="VALset_front"><span class="keyword">val</span> set_front</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALset_back"><span class="keyword">val</span> set_back</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">string -> string -> <a href="Flashcards.Card.html#TYPEt">t</a></code></pre>
+<pre><span id="VALreverse"><span class="keyword">val</span> reverse</span> : <code class="type"><a href="Flashcards.Card.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Reverse or swap the front and back values.
+<p>
+This is often used with flashcards for foreign languages where
+       one wants to practice with say, English to Latin and then 
+       Latin to English.
+       This also let's you play "Jeopardy."<br>
+</div>
+</body></html>
